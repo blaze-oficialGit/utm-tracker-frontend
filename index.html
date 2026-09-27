@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UTM Tracker - Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h1 class="logo">📊 UTM Tracker</h1>
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" data-page="dashboard">
+          <span class="nav-icon">📈</span>
+          <span class="nav-text">Dashboard</span>
+        </a>
+        <a href="#" class="nav-item" data-page="sales">
+          <span class="nav-icon">💰</span>
+          <span class="nav-text">Vendas</span>
+        </a>
+        <a href="#" class="nav-item" data-page="campaigns">
+          <span class="nav-icon">🎯</span>
+          <span class="nav-text">Campanhas</span>
+        </a>
+        <a href="#" class="nav-item" data-page="links">
+          <span class="nav-icon">🔗</span>
+          <span class="nav-text">Links</span>
+        </a>
+        <a href="#" class="nav-item" data-page="visitors">
+          <span class="nav-icon">👥</span>
+          <span class="nav-text">Visitantes</span>
+        </a>
+        <a href="#" class="nav-item" data-page="events">
+          <span class="nav-icon">⚡</span>
+          <span class="nav-text">Eventos</span>
+        </a>
+        <a href="#" class="nav-item" data-page="integrations">
+          <span class="nav-icon">🔌</span>
+          <span class="nav-text">Integrações</span>
+        </a>
+        <a href="#" class="nav-item" data-page="webhooks">
+          <span class="nav-icon">🪝</span>
+          <span class="nav-text">Webhooks</span>
+        </a>
+        <a href="#" class="nav-item" data-page="tracking">
+          <span class="nav-icon">📍</span>
+          <span class="nav-text">Tracking</span>
+        </a>
+        <a href="#" class="nav-item" data-page="settings">
+          <span class="nav-icon">⚙️</span>
+          <span class="nav-text">Configurações</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-info" id="userInfo">
+          <span class="user-email">Carregando...</span>
+        </div>
+        <button class="btn-logout" id="logoutBtn">Sair</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <h2 class="page-title" id="pageTitle">Dashboard</h2>
+        <div class="top-bar-actions">
+          <select id="periodSelector" class="period-selector">
+            <option value="today">Hoje</option>
+            <option value="yesterday">Ontem</option>
+            <option value="7d" selected>Últimos 7 dias</option>
+            <option value="30d">Últimos 30 dias</option>
+            <option value="custom">Personalizado</option>
+          </select>
+          <div class="demo-badge" id="demoBadge" style="display: none;">
+            🎭 Dados de Demonstração
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <div class="page-content" id="pageContent">
+        <!-- Dashboard Page -->
+        <div class="page active" id="page-dashboard">
+          <div class="metrics-grid">
+            <div class="metric-card">
+              <div class="metric-label">Investimento</div>
+              <div class="metric-value" id="metricInvestment">R$ 0,00</div>
+              <div class="metric-change" id="changeInvestment">-</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Receita</div>
+              <div class="metric-value" id="metricRevenue">R$ 0,00</div>
+              <div class="metric-change" id="changeRevenue">-</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Vendas</div>
+              <div class="metric-value" id="metricSales">0</div>
+              <div class="metric-change" id="changeSales">-</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Leads</div>
+              <div class="metric-value" id="metricLeads">0</div>
+              <div class="metric-change" id="changeLeads">-</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Cliques</div>
+              <div class="metric-value" id="metricClicks">0</div>
+              <div class="metric-change" id="changeClicks">-</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Conversão</div>
+              <div class="metric-value" id="metricConversion">0%</div>
+              <div class="metric-change" id="changeConversion">-</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">CPA</div>
+              <div class="metric-value" id="metricCPA">R$ 0,00</div>
+              <div class="metric-change" id="changeCPA">-</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">CPL</div>
+              <div class="metric-value" id="metricCPL">R$ 0,00</div>
+              <div class="metric-change" id="changeCPL">-</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">ROAS</div>
+              <div class="metric-value" id="metricROAS">0.00</div>
+              <div class="metric-change" id="changeROAS">-</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Ticket Médio</div>
+              <div class="metric-value" id="metricAvgTicket">R$ 0,00</div>
+              <div class="metric-change" id="changeAvgTicket">-</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Lucro Estimado</div>
+              <div class="metric-value" id="metricProfit">R$ 0,00</div>
+              <div class="metric-change" id="changeProfit">-</div>
+            </div>
+          </div>
+
+          <div class="charts-grid">
+            <div class="chart-card">
+              <h3>Receita ao Longo do Tempo</h3>
+              <canvas id="revenueChart"></canvas>
+            </div>
+            <div class="chart-card">
+              <h3>Vendas</h3>
+              <canvas id="salesChart"></canvas>
+            </div>
+            <div class="chart-card">
+              <h3>Cliques</h3>
+              <canvas id="clicksChart"></canvas>
+            </div>
+            <div class="chart-card">
+              <h3>ROAS</h3>
+              <canvas id="roasChart"></canvas>
+            </div>
+          </div>
+
+          <div class="recent-activity">
+            <h3>🎉 Vendas Recentes</h3>
+            <div class="activity-list" id="recentSales">
+              <p class="empty-state">Nenhuma venda registrada ainda</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sales Page -->
+        <div class="page" id="page-sales">
+          <div class="filters-bar">
+            <input type="text" id="salesSearch" placeholder="Buscar por cliente, produto ou campanha..." class="search-input">
+            <select id="salesStatusFilter" class="filter-select">
+              <option value="">Todos os Status</option>
+              <option value="approved">Aprovado</option>
+              <option value="pending">Pendente</option>
+              <option value="refunded">Reembolsado</option>
+              <option value="cancelled">Cancelado</option>
+            </select>
+          </div>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Data</th>
+                  <th>Cliente</th>
+                  <th>Produto</th>
+                  <th>Valor</th>
+                  <th>Status</th>
+                  <th>Origem</th>
+                  <th>Campanha</th>
+                  <th>Anúncio</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="salesTableBody">
+                <tr><td colspan="9" class="empty-state">Nenhuma venda encontrada</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Campaigns Page -->
+        <div class="page" id="page-campaigns">
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Campanha</th>
+                  <th>Plataforma</th>
+                  <th>Investimento</th>
+                  <th>Cliques</th>
+                  <th>Leads</th>
+                  <th>Vendas</th>
+                  <th>Receita</th>
+                  <th>CPA</th>
+                  <th>ROAS</th>
+                </tr>
+              </thead>
+              <tbody id="campaignsTableBody">
+                <tr><td colspan="9" class="empty-state">Nenhuma campanha encontrada</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Links Page -->
+        <div class="page" id="page-links">
+          <div class="links-header">
+            <button class="btn-primary" id="generateLinkBtn">+ Gerar Link Rastreável</button>
+          </div>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>URL de Destino</th>
+                  <th>UTM Source</th>
+                  <th>UTM Campaign</th>
+                  <th>Cliques</th>
+                  <th>Criado em</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="linksTableBody">
+                <tr><td colspan="7" class="empty-state">Nenhum link gerado ainda</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Visitors Page -->
+        <div class="page" id="page-visitors">
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Visitor ID</th>
+                  <th>País</th>
+                  <th>Dispositivo</th>
+                  <th>Navegador</th>
+                  <th>Primeira Visita</th>
+                  <th>Última Visita</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="visitorsTableBody">
+                <tr><td colspan="7" class="empty-state">Nenhum visitante registrado</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Events Page -->
+        <div class="page" id="page-events">
+          <div class="filters-bar">
+            <select id="eventTypeFilter" class="filter-select">
+              <option value="">Todos os Eventos</option>
+              <option value="page_view">Page View</option>
+              <option value="click">Click</option>
+              <option value="lead">Lead</option>
+              <option value="checkout_started">Checkout Started</option>
+              <option value="purchase">Purchase</option>
+              <option value="refund">Refund</option>
+            </select>
+          </div>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Data/Hora</th>
+                  <th>Tipo</th>
+                  <th>UTM Source</th>
+                  <th>UTM Campaign</th>
+                  <th>Dados</th>
+                </tr>
+              </thead>
+              <tbody id="eventsTableBody">
+                <tr><td colspan="5" class="empty-state">Nenhum evento registrado</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Integrations Page -->
+        <div class="page" id="page-integrations">
+          <div class="integrations-grid" id="integrationsGrid">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Webhooks Page -->
+        <div class="page" id="page-webhooks">
+          <div class="webhook-info">
+            <h3>Endpoint de Webhook para Vendas</h3>
+            <p>Configure este URL como webhook na sua plataforma de pagamento (Hotmart, Kiwify, Stripe, etc.):</p>
+            <div class="webhook-url-box">
+              <code id="webhookPurchaseUrl">Carregando...</code>
+              <button class="btn-copy" onclick="copyToClipboard('webhookPurchaseUrl')">Copiar</button>
+            </div>
+            <h3>Endpoint de Webhook para Leads</h3>
+            <div class="webhook-url-box">
+              <code id="webhookLeadUrl">Carregando...</code>
+              <button class="btn-copy" onclick="copyToClipboard('webhookLeadUrl')">Copiar</button>
+            </div>
+            <h3>Formato Esperado (Purchase)</h3>
+            <pre class="code-block">{
+  "transaction_id": "ABC123",
+  "customer": {
+    "name": "Cliente",
+    "email": "cliente@email.com"
+  },
+  "amount": 47.00,
+  "currency": "BRL",
+  "status": "approved",
+  "product": "Produto Teste",
+  "session_id": "optional-session-id",
+  "click_id": "optional-click-id"
+}</pre>
+          </div>
+          <h3>Logs de Webhooks Recebidos</h3>
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Data/Hora</th>
+                  <th>Fonte</th>
+                  <th>Processado</th>
+                  <th>Payload</th>
+                </tr>
+              </thead>
+              <tbody id="webhookLogsBody">
+                <tr><td colspan="4" class="empty-state">Nenhum webhook recebido</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tracking Page -->
+        <div class="page" id="page-tracking">
+          <div class="tracking-install">
+            <h3>Instalar Script de Tracking</h3>
+            <p>Cole este código antes do <code>&lt;/body&gt;</code> do seu site:</p>
+            <pre class="code-block" id="trackingScriptCode">&lt;script src="https://your-api-domain.com/tracking.js" data-api="https://your-api-domain.com/api/track"&gt;&lt;/script&gt;</pre>
+            <button class="btn-copy" onclick="copyToClipboard('trackingScriptCode')">Copiar Código</button>
+
+            <h3>Testar Rastreamento</h3>
+            <div class="test-tracking-form">
+              <input type="url" id="testUrl" placeholder="Cole uma URL com UTMs para testar" class="search-input">
+              <button class="btn-primary" id="testTrackingBtn">Testar</button>
+            </div>
+            <div class="test-results" id="testResults" style="display: none;">
+              <h4>Resultados do Teste:</h4>
+              <div id="testResultsContent"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Settings Page -->
+        <div class="page" id="page-settings">
+          <div class="settings-section">
+            <h3>Perfil</h3>
+            <form id="profileForm">
+              <div class="form-group">
+                <label>Nome</label>
+                <input type="text" id="settingsName" class="form-input">
+              </div>
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="settingsEmail" class="form-input">
+              </div>
+              <button type="submit" class="btn-primary">Salvar Alterações</button>
+            </form>
+          </div>
+          <div class="settings-section">
+            <h3>Alterar Senha</h3>
+            <form id="passwordForm">
+              <div class="form-group">
+                <label>Senha Atual</label>
+                <input type="password" id="currentPassword" class="form-input">
+              </div>
+              <div class="form-group">
+                <label>Nova Senha</label>
+                <input type="password" id="newPassword" class="form-input">
+              </div>
+              <button type="submit" class="btn-primary">Alterar Senha</button>
+            </form>
+          </div>
+          <div class="settings-section">
+            <h3>Modelo de Atribuição</h3>
+            <select id="attributionModel" class="form-input">
+              <option value="last_click">Last Click (último clique)</option>
+              <option value="first_click">First Click (primeiro clique)</option>
+              <option value="linear">Linear (distribuído)</option>
+            </select>
+            <p class="help-text">Define como as vendas são atribuídas às campanhas quando há múltiplos pontos de contato.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <h2>🔐 Entrar no UTM Tracker</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="loginEmail" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label>Senha</label>
+          <input type="password" id="loginPassword" class="form-input" required>
+        </div>
+        <button type="submit" class="btn-primary btn-full">Entrar</button>
+        <p class="modal-footer">Não tem conta? <a href="#" id="showRegister">Cadastre-se</a></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Register Modal -->
+  <div class="modal" id="registerModal" style="display: none;">
+    <div class="modal-content">
+      <h2>📝 Criar Conta</h2>
+      <form id="registerForm">
+        <div class="form-group">
+          <label>Nome</label>
+          <input type="text" id="registerName" class="form-input">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="registerEmail" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label>Senha</label>
+          <input type="password" id="registerPassword" class="form-input" required>
+        </div>
+        <button type="submit" class="btn-primary btn-full">Criar Conta</button>
+        <p class="modal-footer">Já tem conta? <a href="#" id="showLogin">Entrar</a></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Generate Link Modal -->
+  <div class="modal" id="generateLinkModal" style="display: none;">
+    <div class="modal-content modal-large">
+      <h2>🔗 Gerar Link Rastreável</h2>
+      <form id="generateLinkForm">
+        <div class="form-group">
+          <label>Nome do Link (opcional)</label>
+          <input type="text" id="linkName" class="form-input" placeholder="Ex: Campanha TikTok Setembro">
+        </div>
+        <div class="form-group">
+          <label>URL de Destino *</label>
+          <input type="url" id="linkDestination" class="form-input" required placeholder="https://meusite.com/oferta">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>utm_source</label>
+            <input type="text" id="linkUtmSource" class="form-input" placeholder="tiktok">
+          </div>
+          <div class="form-group">
+            <label>utm_medium</label>
+            <input type="text" id="linkUtmMedium" class="form-input" placeholder="paid">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>utm_campaign</label>
+            <input type="text" id="linkUtmCampaign" class="form-input" placeholder="campanha1">
+          </div>
+          <div class="form-group">
+            <label>utm_content</label>
+            <input type="text" id="linkUtmContent" class="form-input" placeholder="video1">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>utm_term</label>
+          <input type="text" id="linkUtmTerm" class="form-input" placeholder="termo">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>campaign_id</label>
+            <input type="text" id="linkCampaignId" class="form-input" placeholder="123">
+          </div>
+          <div class="form-group">
+            <label>adgroup_id</label>
+            <input type="text" id="linkAdgroupId" class="form-input" placeholder="456">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>ad_id</label>
+            <input type="text" id="linkAdId" class="form-input" placeholder="789">
+          </div>
+          <div class="form-group">
+            <label>placement</label>
+            <input type="text" id="linkPlacement" class="form-input" placeholder="feed">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>creative_id</label>
+          <input type="text" id="linkCreativeId" class="form-input" placeholder="abc123">
+        </div>
+        <button type="submit" class="btn-primary btn-full">Gerar Link</button>
+        <div class="generated-link-result" id="generatedLinkResult" style="display: none;">
+          <label>Link Gerado:</label>
+          <div class="webhook-url-box">
+            <code id="generatedLinkUrl"></code>
+            <button type="button" class="btn-copy" onclick="copyToClipboard('generatedLinkUrl')">Copiar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
